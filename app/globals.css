@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media screen and (max-width: 425px) {
+  .btn-sm-custom{
+    min-height: unset;
+    height: unset;
+    width: unset;
+    padding: unset;
+    padding: 10px
+  }
+}
