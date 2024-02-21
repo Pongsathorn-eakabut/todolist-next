@@ -12,7 +12,6 @@ export default function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
-  useToDoListContext:React.ReactNode;
 }>) {
   return (
     <html lang="en" data-theme="light">

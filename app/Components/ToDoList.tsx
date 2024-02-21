@@ -3,16 +3,20 @@ import { IoIosRemove } from "react-icons/io";
 import { MdModeEdit } from "react-icons/md";
 import { useState,useContext } from "react";
 import { UseToDoListContext } from "../context";
+import useGetToDoList from "../../hook/UseToDoList"
+
+
 
 const ToDoList = () => {
     const UseToDoList = UseToDoListContext()
-    const [visibleModal,setVisibleModal] = useState<Boolean>(false)
-    const [taskToEdit,setTaskToEdit] = useState()
-    const editTask = (task:any) => {
+    const {visibleModal,taskToEdit,setVisibleModal,setTaskToEdit} = useGetToDoList()
+    
+    const editTask = (task:ITask) => {
         setTaskToEdit(task)
         setVisibleModal(true)
     }
-    const taskDataChange= (taskName: any) => {
+    const taskDataChange= (taskName: string | undefined) => {
+        if (!taskName) return;
         let temp = {...taskToEdit}
         temp.taskName = taskName
         setTaskToEdit(temp)
@@ -37,8 +41,8 @@ const ToDoList = () => {
                         <tr key={task.id}>
                             <td className="">{task.taskName}</td>
                             <td className="">
-                                <button onClick={()=>UseToDoList.handleDeleteTask(task.id)} className="btn btn-sm-custom btn-error"> <IoIosRemove size={15}/></button>
-                                <button onClick={()=>editTask(task)} className="ml-[8px] btn btn-sm-custom btn-warning"> <MdModeEdit size={15}/></button>
+                                <button onClick={(e)=>UseToDoList.handleDeleteTask(task.id)} className="btn btn-sm-custom btn-error"> <IoIosRemove size={15}/></button>
+                                <button onClick={(e)=>editTask(task)} className="ml-[8px] btn btn-sm-custom btn-warning"> <MdModeEdit size={15}/></button>
                             </td>
                         </tr>
                     ))}
@@ -51,12 +55,12 @@ const ToDoList = () => {
                             <input 
                                 placeholder="Type To Do List" 
                                 className="input w-full border-black border-1" 
-                                value={taskToEdit.taskName}
+                                value={taskToEdit?.taskName}
                                 onChange={(e)=>taskDataChange(e.target.value)}
                             />
                         </div>
                         <div className="flex flex-row justify-end mt-[32px]">
-                            <button className="btn btn-primary mr-[8px] btn-sm-custom" disabled={taskToEdit.taskName=== ""} onClick={()=>submitEdit()}>Save</button>
+                            <button className="btn btn-primary mr-[8px] btn-sm-custom" disabled={taskToEdit?.taskName=== ""} onClick={()=>submitEdit()}>Save</button>
                             <button className="btn btn-sm-custom" onClick={()=>setVisibleModal(false)}>Close</button>
                         </div>
                     </div>

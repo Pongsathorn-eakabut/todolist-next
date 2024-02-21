@@ -1,9 +1,9 @@
 export interface ContextType{
     tasks: ITask[],
-    handleChangeTaskName: any,
-    handleDeleteTask: any,
-    handleEditTask: any,
-    handleAddTask: any,
+    handleChangeTaskName: (taskName: string | '') => void,
+    handleDeleteTask: (taskId: number | undefined) => void,
+    handleEditTask: (task: ITask) => void,
+    handleAddTask: () => void,
     taskName: string,
 }
 

@@ -4,28 +4,23 @@ import ToDoList from "./Components/ToDoList";
 import { ITask } from "@/types/task";
 import { useState } from "react";
 import { ToDoListContext } from "./context";
+import useGetToDoList from "../hook/UseToDoList"
 
 
 export default function TaskHome() {
-  const [tasks,setTasks] = useState<ITask[]>([
-    {
-    id: 1,
-    taskName: 'ToDo 1'
-    }
-  ])
-  const [taskName, setTaskName] = useState<string>('')
+  const {tasks,setTasks,taskName, setTaskName} = useGetToDoList()
   const handleChangeTaskName = (taskName : string) => {
       setTaskName(taskName)
   }
-  const handleDeleteTask = (taskId: any) => {
+  const handleDeleteTask = (taskId: number | undefined) => {
     let temp = tasks
-    temp = temp.filter((task:any) => task.id !== taskId)
+    temp = temp.filter((task:ITask) => task.id !== taskId)
     setTasks(temp)
   }
 
-  const handleEditTask = (taskToEdit: any) => {
-      const taskDataEdit =  taskToEdit;
-      const index = tasks.findIndex((task:any)=>task.id === taskDataEdit.id)
+  const handleEditTask = (task:ITask) => {
+      const taskDataEdit =  task;
+      const index = tasks.findIndex((task:ITask)=>task.id === taskDataEdit.id)
       let temp = tasks
       if(index !== -1){
         temp[index] = taskDataEdit
@@ -33,8 +28,7 @@ export default function TaskHome() {
       }
   }
 
-  const handleAddTask = (e: any) => {
-      e.preventDefault();
+  const handleAddTask = () => {
       if (!taskName) return
       const newTask = {
         id: tasks.length?tasks[tasks.length-1].id + 1 : 1,
